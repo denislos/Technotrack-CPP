@@ -1,6 +1,6 @@
 
 // This is the header file of C++ library of stack created by Denis Los
-// This version is from 23.02.2017 (v1.1) 
+// This version is from 05.03.2017 (v2.0) 
 
 
 
@@ -15,10 +15,17 @@
 
 
 
+extern const size_t STACK_DEFAULT_MAX_SIZE;
+extern const size_t STACK_DEFAULT_ELEM_SIZE;
+
+
+
+
 
 
 #ifndef NDEBUG
 
+extern const unsigned char* STACK_DUMPSTER_NAME;
 
 
 enum STACK_ERROR_CODE
@@ -50,7 +57,7 @@ class Stack
   {
 
     public:
-      Stack(size_t max_size = 0xFFFF, size_t elem_size = sizeof(int));
+      Stack(size_t max_size = STACK_DEFAULT_MAX_SIZE, size_t elem_size = STACK_DEFAULT_ELEM_SIZE);
       ~Stack();
       bool push(void* elem);
 
@@ -63,10 +70,13 @@ class Stack
       
       size_t size() const;
       bool isEmpty() const;
+      size_t maxSize() const;
+      size_t elemSize() const;
 
       #ifndef NDEBUG
         int verify();
-        bool dump(unsigned char* dumpster_name = "MyStack_dumpster.txt") const;
+        bool dump(unsigned char* dumpster_name = STACK_DUMPSTER_NAME) const;
+        int getErrno() const;
       #endif   
     private:
       #ifndef NDEBUG
@@ -89,11 +99,15 @@ class Stack
       #ifndef NDEBUG
         int _RIGHT_CANARY;
       #endif
+    
+
+    #ifndef NDEBUG
+      friend class MyStackUnitTests;
+    #endif
+
   };
 
 
 
 
 #endif // MYSTACK_H
-
-  
