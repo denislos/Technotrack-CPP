@@ -1,6 +1,6 @@
 
 // This is the source file of C++ library of stack created by Denis Los
-// This version is from 23.02.2017 (v1.1)
+// This version is from 05.03.2017 (v2.0)
 
 
 #include <stdio.h>
@@ -13,6 +13,17 @@
 
 
 
+const size_t STACK_DEFAULT_MAX_SIZE = 0xFFFF;
+const size_t STACK_DEFAULT_ELEM_SIZE = sizeof(int);
+
+
+#ifndef NDEBUG
+  const unsigned char* STACK_DUMPSTER_NAME = "MyStack_dumpster.txt";
+#endif
+
+
+
+
 #ifndef STACK_ASSERT_OK()
 
 #ifndef NDEBUG
@@ -21,7 +32,7 @@
     if ( _errno )                    \
       {                              \
         fprintf(stderr, "The program has been terminated with error code %X\n"          \
-                        "See more information in %s\n", _errno, "MyStack_dumpster.txt"); \
+                        "See more information in %s\n", _errno, STACK_DUMPSTER_NAME); \
         dump();                      \
         abort();                     \
       }                              
@@ -139,11 +150,34 @@ bool Stack :: isEmpty() const
 
 
 
+size_t Stack :: maxSize() const
+  {
+    STACK_ASSERT_OK();
+
+    return _max_size;
+  } 
+
+
+
+size_t Stack :: elemSize() const 
+  {
+    STACK_ASSERT_OK();
+
+    return _elem_size;
+  }  
+
+
 
 
 
 
 #ifndef NDEBUG
+
+
+int Stack :: getErrno() const
+  {
+    return _errno;
+  }
 
 size_t Stack :: hash_function() const
   {
