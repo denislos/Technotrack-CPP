@@ -61,14 +61,17 @@ bool MyStackUnitTests :: run() const
   {
     showInfo();
 
+    bool isTestOk = true;
     for ( size_t cnt = 1; cnt < _quantity; cnt++ )
       {
         fprintf(stderr,"\n%s\n", _unit_tests[cnt].name);
 
-        fprintf(stderr, "[%s]\n", ( _unit_tests[cnt].unit_test() ) ? "OK" : "ERROR" );
+        fprintf(stderr, "[%s]\n", ( isTestOk = _unit_tests[cnt].unit_test() ) ? "OK" : "ERROR" );
       }
       
     fprintf(stderr, "\nDone\n");    
+
+    return isTestOk;
   }
 
 
